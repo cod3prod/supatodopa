@@ -1,5 +1,4 @@
 import { sql } from "@vercel/postgres";
-import { addPerson, deletePerson } from "../actions/person";
 import RemoveButton from "@/components/remove-button";
 
 // v2
@@ -13,28 +12,7 @@ export default async function Home() {
       <div className="flex flex-col gap-4 w-[400px]">
         {/* Form Container */}
         <div className="w-full max-w-md bg-gray-700 rounded-xl shadow-md">
-          <form
-            action={async (formData: FormData) => {
-              "use server";
-              await addPerson(formData);
-            }}
-            className="space-y-4 p-4"
-          >
-            <input
-              type="text"
-              name="personName"
-              id="personName"
-              placeholder="Enter a Person"
-              className="w-full px-3 py-2 text-white bg-gray-600 border border-gray-500 rounded-md placeholder-gray-400"
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Add Person
-            </button>
-          </form>
+
         </div>
 
         {/* List Container */}
