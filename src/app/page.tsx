@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
 import RemoveButton from "@/components/remove-button";
+import FormEditor from "@/components/form-editor";
 
 // v2
 export default async function Home() {
@@ -12,7 +13,7 @@ export default async function Home() {
       <div className="flex flex-col gap-4 w-[400px]">
         {/* Form Container */}
         <div className="w-full max-w-md bg-gray-700 rounded-xl shadow-md">
-
+          <FormEditor />
         </div>
 
         {/* List Container */}
