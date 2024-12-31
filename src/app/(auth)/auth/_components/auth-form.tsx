@@ -16,6 +16,7 @@ export default function AuthForm() {
   const [message, setMessage] = useState("");
   const { session } = useAuthStore();
   const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_DOMAIN;
 
   useEffect(() => {
     if (!session) return;
@@ -35,11 +36,13 @@ export default function AuthForm() {
           email,
           password,
           options: {
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_DOMAIN}/callback`,
+            emailRedirectTo: `${BASE_URL}/callback`,
           },
         });
       } else if (formType === "reset") {
-        result = await supabase.auth.resetPasswordForEmail(email);
+        result = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${BASE_URL}/update-password`,
+        });
       }
 
       if (result?.error) {
@@ -62,7 +65,7 @@ export default function AuthForm() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${process.env.NEXT_PUBLIC_DOMAIN}/tasks`,
+          redirectTo: `${BASE_URL}/tasks`,
         },
       });
       if (error) setMessage(error.message);

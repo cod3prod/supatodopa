@@ -52,13 +52,13 @@ export default function UpdateButton() {
             <h2 className="text-xl font-semibold mb-4">프로필 수정</h2>
             <input
               type="text"
-              placeholder="display name"
+              placeholder="닉네임 변경"
               onChange={(e) => setDisplayName(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
             />
             <input
               type="password"
-              placeholder="password"
+              placeholder="새로운 비밀번호"
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
             />
