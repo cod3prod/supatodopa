@@ -21,7 +21,7 @@ export default function AuthForm() {
     if (!session) return;
 
     router.push("/tasks");
-  }, [session])
+  }, [session]);
 
   const handleAuth = async () => {
     let result;
@@ -35,7 +35,7 @@ export default function AuthForm() {
           email,
           password,
           options: {
-            emailRedirectTo: "http://localhost:3000/callback",
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_DOMAIN}/callback`,
           },
         });
       } else if (formType === "reset") {
@@ -48,7 +48,7 @@ export default function AuthForm() {
         setMessage(
           formType === "reset" ? "Password reset email sent!" : "Success!"
         );
-        if(formType === "signin"){
+        if (formType === "signin") {
           router.push("/tasks");
         }
       }
@@ -61,6 +61,9 @@ export default function AuthForm() {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
+        options: {
+          redirectTo: `${process.env.NEXT_PUBLIC_DOMAIN}/tasks`,
+        },
       });
       if (error) setMessage(error.message);
     } catch (error) {
