@@ -5,7 +5,7 @@ import { useAuthStore } from "@/zustand/auth-store";
 import { supabase } from "@/libs/supabase-client";
 
 export default function Global() {
-  const { session, setSession } = useAuthStore();
+  const { setSession } = useAuthStore();
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -16,6 +16,6 @@ export default function Global() {
     });
   
     return () => subscription.unsubscribe(); 
-  }, []);
+  }, [setSession]);
   return null;
 }

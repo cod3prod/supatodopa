@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { supabase } from "@/libs/supabase-client";
 import Image from "next/image";
 import googleIcon from "@/assets/google.svg";
@@ -22,9 +22,10 @@ export default function AuthForm() {
     if (!session) return;
 
     router.push("/tasks");
-  }, [session]);
+  }, [session, router]);
 
-  const handleAuth = async () => {
+  const handleAuth = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     let result;
     setMessage("");
 
@@ -56,6 +57,7 @@ export default function AuthForm() {
         }
       }
     } catch (error) {
+      console.error(error);
       setMessage("Something went wrong.");
     }
   };
@@ -70,13 +72,17 @@ export default function AuthForm() {
       });
       if (error) setMessage(error.message);
     } catch (error) {
+      console.error(error);
       setMessage("Google sign-in failed.");
     }
   };
 
   return (
     <section className="flex-1 flex flex-col items-center justify-center  bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm">
+      <form
+        onSubmit={handleAuth}
+        className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm"
+      >
         <h2 className="text-2xl font-semibold text-center mb-6 text-primary">
           {formType === "signin"
             ? "로그인"
@@ -101,10 +107,7 @@ export default function AuthForm() {
               onChange={(e) => setPassword(e.target.value)}
             />
           )}
-          <button
-            className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary/90"
-            onClick={handleAuth}
-          >
+          <button className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary/90">
             {formType === "signin"
               ? "로그인하기"
               : formType === "signup"
@@ -112,6 +115,7 @@ export default function AuthForm() {
               : "비밀번호 재설정 링크 보내기"}
           </button>
           <button
+            type="button"
             className="w-full flex items-center justify-center border border-gray-300 py-2 rounded-md hover:bg-gray-100"
             onClick={handleGoogleSignIn}
           >
@@ -170,7 +174,7 @@ export default function AuthForm() {
           )}
         </div>
         {message && <p className="mt-4 text-center text-red-500">{message}</p>}
-      </div>
+      </form>
     </section>
   );
 }
