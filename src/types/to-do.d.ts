@@ -28,6 +28,12 @@ type ToDoAction =
       payload: {
         id: string;
       };
-    };
+    }
+  | {
+      type: "SET_TODOS";
+      payload: {
+        todos: ToDo[];
+      }
+  }
 
 export { ToDo, ToDoState, ToDoAction };

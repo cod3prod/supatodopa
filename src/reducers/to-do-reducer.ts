@@ -35,6 +35,12 @@ const todoReducer = (state: ToDoState, action: ToDoAction): ToDoState => {
         todos: state.todos.filter((todo) => todo.id !== action.payload.id),
       };
 
+    case "SET_TODOS":
+      return {
+        ...state,
+        todos: action.payload.todos,
+      };
+
     default:
       return state;
   }
