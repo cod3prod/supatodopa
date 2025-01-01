@@ -18,7 +18,7 @@ export default function ToDoListApp() {
   
   return (
     <ToDoProvider>
-      <section className="flex-1 flex flex-col items-center w-full max-w-lg mx-auto py-10 space-y-6">
+      <section className="px-4 flex-1 flex flex-col items-center w-full max-w-lg mx-auto py-10 space-y-6">
         <h2 className="text-2xl font-bold text-primary">오늘 할 일</h2>
         <ToDoInput />
         <ToDoListContainer />

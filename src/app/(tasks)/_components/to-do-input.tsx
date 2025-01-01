@@ -29,7 +29,7 @@ export default function ToDoInput() {
       return;
     }
 
-     const newTodo: ToDo = result[0];
+    const newTodo: ToDo = result[0];
     dispatch({
       type: "ADD_TODO",
       payload: {
@@ -48,9 +48,9 @@ export default function ToDoInput() {
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
         placeholder="할 일을 입력하세요"
-        className="flex-grow p-3 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary"
+        className="flex-grow w-full p-3 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary"
       />
-      <button className="bg-primary text-white px-4 py-3 rounded-r-md hover:bg-primary/90">
+      <button className="flex-shrink-0 w-16 bg-primary text-white px-4 py-3 rounded-r-md hover:bg-primary/90">
         추가
       </button>
     </form>
