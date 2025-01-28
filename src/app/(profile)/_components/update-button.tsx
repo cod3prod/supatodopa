@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { supabaseService } from "@/libs/supabase-client";
 import { supabase } from "@/libs/supabase-client";
 import { useAuthStore } from "@/zustand/auth-store";
 
@@ -17,25 +16,30 @@ export default function UpdateButton() {
       return;
     }
 
-    const { error } = await supabaseService.auth.admin.updateUserById(
-      session.user.id,
-      {
-        password: password || undefined,
-        user_metadata: {
-          display_name: displayName || undefined,
+    const newFormData = new FormData();
+    newFormData.append("display_name", displayName || "");
+    newFormData.append("password", password || "");
+    
+    try {
+      const response = await fetch("/api/auth", {
+        method: "PATCH",
+        headers: {
+          authorization: session.access_token,
         },
+        body: JSON.stringify({ display_name: displayName, password }),
+      });
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        console.error(error);
+        return;
       }
-    );
-
-    if (error) {
-      console.error("Failed to update user:", error.message);
+      console.log("User updated successfully.");
+      await supabase.auth.refreshSession();
       setIsModalOpen(false);
-      return;
+    } catch (error) {
+      console.error(error);
     }
-
-    await supabase.auth.refreshSession();
-    console.log("User updated successfully.");
-    setIsModalOpen(false);
   };
 
   return (
