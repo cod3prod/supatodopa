@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { supabaseService } from "@/libs/supabase-client";
 import { useAuthStore } from "@/zustand/auth-store";
 import { useRouter } from "next/navigation";
 
@@ -12,12 +11,27 @@ export default function DeleteButton() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const handleDelete = async () => {
-    if(!session) return;
-    const { error } = await supabaseService.auth.admin.deleteUser(session.user.id);
-    if(error) return console.error(error);
-    setIsModalOpen(false);
-    setSession(null);
-    router.push("/");
+    if (!session) return;
+    try {
+      const response = await fetch("/api/auth", {
+        method: "DELETE",
+        headers: {
+          authorization: session.access_token,
+        },
+      });
+
+      if(!response.ok) {
+        const { error } = await response.json();
+        console.error(error);
+        return;
+      }
+
+      setIsModalOpen(false);
+      setSession(null);
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
